@@ -1,0 +1,33 @@
+{
+  "name": "kanban",
+  "version": "1.0.0",
+  "description": "UDS DevTeam first_project Simple Kanban",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
+    "start": "webpack-dev-server --content-base src/ --open"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/udsdevteam/udt_kanban.git"
+  },
+  "author": "sangza, june",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/udsdevteam/udt_kanban/issues"
+  },
+  "homepage": "https://github.com/udsdevteam/udt_kanban#readme",
+  "devDependencies": {
+    "awesome-typescript-loader": "^3.1.3",
+    "css-loader": "^0.28.4",
+    "firebase": "^4.1.2",
+    "html-webpack-plugin": "^2.28.0",
+    "source-map-loader": "^0.2.1",
+    "tslint": "^5.4.3",
+    "tslint-loader": "^3.5.3",
+    "typescript": "^2.3.4",
+    "webpack": "^2.6.1",
+    "webpack-dev-server": "^2.4.5"
+  }
+}

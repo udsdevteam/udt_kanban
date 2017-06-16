@@ -1,0 +1,6 @@
+{
+  "projects": {
+    "default": "udsdev-kanban",
+    "kanban": "udsdev-kanban"
+  }
+}
