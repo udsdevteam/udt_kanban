@@ -1,6 +1,6 @@
-import { Kanban } from './kanban/Kanban';
+import { Kanban } from "./kanban/Kanban";
 
-window.onload = function () {
-    var o = new Kanban();
+window.onload = () => {
+    const o = new Kanban();
     o.show();
-}
+};

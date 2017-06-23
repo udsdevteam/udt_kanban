@@ -1,5 +1,5 @@
 export class Kanban {
-  show() {
+  public show() {
     alert("Hello, Stranger?");
   }
 }
