@@ -1,0 +1,15 @@
+{
+    "defaultSeverity": "error",
+    "extends": [
+        "tslint:recommended"
+    ],
+    "jsRules": {},
+    "rules": {
+        "no-console": [
+            false
+        ],
+        "eofline": false // new line으로 파일이 끝나야함.
+        // "only-arrow-functions": false
+    },
+    "rulesDirectory": []
+}
