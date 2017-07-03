@@ -8,6 +8,13 @@
         "no-console": [
             false
         ],
+        // "object-literal-sort-keys": false, /*key가 알파벳 순서대로 정렬돼야함.*/
+        "trailing-comma": [ /* 배열, 객체 등 마지막 ,로 끝나야 함 */
+            false
+        ],
+        "quotemark": [
+            false
+        ],
         "eofline": false // new line으로 파일이 끝나야함.
         // "only-arrow-functions": false
     },
