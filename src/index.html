@@ -22,7 +22,6 @@
   </style>
 
   <!--<link rel="stylesheet" type="text/css" href="css/style.css" />-->
-  <script src="https://www.gstatic.com/firebasejs/4.1.2/firebase.js"></script>
 </head>
 
 <body>
@@ -37,8 +36,7 @@
       <nav>
         <div class="nav-wrapper">
           <div class="col s12">
-            <a href="#!" class="breadcrumb"><span id="modifyDate"></span></a>
-
+            <a href="#!" class="breadcrumb"><span id="modifyDate"></span></a> UDS Kanban Project
           </div>
         </div>
       </nav>
@@ -47,7 +45,7 @@
     </div>
 
     <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
-      <a class="btn-floating btn-large waves-effect waves-light red" onClick="initKanban()"><i class="material-icons">add</i></a>
+      <a id="initButton" class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">add</i></a>
     </div>
 
     <div class="preloader-wrapper big active" style="position:absolute; z-index:1000; left:50%; top:50%; display:none;">
@@ -67,135 +65,9 @@
 
   <!--Import jQuery before materialize.js-->
   <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
 
-  <script type="text/javascript">
-    var auth, userInfo, selectedKey, database;
-
-    // Initialize Firebase
-    var config = {
-      apiKey: "AIzaSyCKft015Ehm_OwFqYbJOmAdwm4pQNrunKA",
-      authDomain: "udsdev-kanban.firebaseapp.com",
-      databaseURL: "https://udsdev-kanban.firebaseio.com",
-      projectId: "udsdev-kanban",
-      storageBucket: "udsdev-kanban.appspot.com",
-      messagingSenderId: "339499578388"
-    };
-    firebase.initializeApp(config);
-
-    auth = firebase.auth();
-    var authProvider = new firebase.auth.GoogleAuthProvider();
-    // 팝업 형태로 열어줌
-    // 성공 실패 구분
-    auth.onAuthStateChanged(function (user) {
-      if (user) {
-        // 인증 성공시
-        userInfo = user;
-        getKanbanlist();
-      } else {
-        // 인증 실패시, 인증 팝업창을 뛰워줌
-        auth.signInWithRedirect(authProvider);
-      }
-    });
-    database = firebase.database();
-
-    function getKanbanlist() {
-      var kanbanRef = database.ref('kanbans/' + userInfo.uid);
-      console.log(kanbanRef);
-      // Firebase는 비동기 방식, FB DB에 추가되면 즉시 콜백으로 데이터를 받아온다.
-      kanbanRef.on('child_added', onChildAdded);
-      kanbanRef.on('child_changed', function (data) {
-        var key = data.key;
-        var txt = data.val().txt;
-        var title = txt.substr(0, txt.indexOf('\n'));
-        var firstTxt = txt.substr(0, 1);
-
-        $('#' + key + " > .title").text(title);
-        $('#' + key + " > .txt").text(txt);
-        $('#' + key + " > .material-icons").text(firstTxt);
-      });
-    }
-
-    function onChildAdded(data) {
-      var key = data.key;
-      var kanbanData = data.val();
-      var txt = kanbanData.txt;
-      var title = txt.substr(0, txt.indexOf("\n"));
-      var firstTxt = txt.substr(0, 1);
-      var html =
-        "<li id='" + key + "' class=\"collection-item avatar\" onclick=\"getKanban(this.id);\" >" +
-        "<i class=\"material-icons circle red\">" + firstTxt + "</i>" +
-        "<span class=\"title\">" + title + "</span>" +
-        "<p class='txt'>" + txt + "<br>" +
-        "</p>" +
-        "<a href=\"#!\" onclick=\"deleteKanban('" + key + "')\" class=\"secondary-content\"><i class=\"material-icons\">grade</i></a>" +
-        "</li>";
-
-      $(".collection").append(html);
-    }
-
-    function getKanban(key) {
-      selectedKey = key;
-
-      // 한건만 가져옴.
-      var kanbanRef = database.ref("kanbans/" + userInfo.uid + "/" + key)
-        .once('value').then(function (snapshot) {
-          if (snapshot.val() != null) {
-            $(".textarea").val(snapshot.val().txt);
-          }
-        });
-    }
-
-    function insertKanban() {
-      var kanbanRef = database.ref("kanbans/" + userInfo.uid);
-      var txt = $('.textarea').val();
-
-      // 메모가 비어있을 때는 입력하지 않음.
-      if (txt == '') {
-        return;
-      }
-      if (selectedKey) {
-        kanbanRef = database.ref("kanbans/" + userInfo.uid + "/" + selectedKey);
-        kanbanRef.update({
-          txt: txt,
-          createDate: new Date().getTime(),
-          updateDate: new Date().getTime()
-        });
-      } else {
-        // 삽입
-        kanbanRef.push({
-          txt: txt,
-          createDate: new Date().getTime()
-        });
-      }
-    }
-
-    function deleteKanban(key) {
-      if (!confirm('삭제하시겠습니까?')) {
-        return;
-      }
-      kanbanRef = database.ref("kanbans/" + userInfo.uid + "/" + key);
-      kanbanRef.remove();
-
-      $('#' + key).remove();
-      initKanban();
-    }
-
-    function initKanban() {
-      selectedKey = null;
-      $('.textarea').val('');
-    }
-
-    $(function () {
-      $('.textarea').blur(function () {
-        insertKanban();
-      })
-    })
-  </script>
-
   <script src="index.js"></script>
-
 </body>
 
 </html>

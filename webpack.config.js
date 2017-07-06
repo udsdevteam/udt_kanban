@@ -11,7 +11,7 @@ const config = {
     rules: [
       { test: /\.css$/, use: 'css-loader' },
       { test: /\.ts$/, use: 'awesome-typescript-loader' },
-      { enforce: "pre", test: /\.js$/, loader: "source-map-loader" },
+      { enforce: "pre", test: /\.js$/, loader: "source-map-loader", exclude: [/node_modules/, /build/, /__test__/] },
       { enforce: 'pre', test: /\.ts$/, loader: 'tslint-loader' }
     ]
   },
@@ -20,7 +20,8 @@ const config = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: 'src/index.html'
+      template: 'src/index.html',
+      inject: false
     })
   ]
 };
